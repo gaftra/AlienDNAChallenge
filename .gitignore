@@ -6,3 +6,6 @@ genome
 
 # Compiled Python Code
 *.pyc
+
+# IDEA files
+.idea/*
