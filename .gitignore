@@ -1,1 +1,8 @@
+# Various Output files
 genome
+
+# Various temporary files
+*.swp
+
+# Compiled Python Code
+*.pyc
