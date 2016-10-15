@@ -62,7 +62,7 @@ def findMatch(file_array,sequence):
 	for x in file_array:
 		x = x[1:-1]
 		if (x[-(len(sequence)):] == sequence):
-			out.append(x[:len(x)-len(sequence)])
+			out.append([x[:len(x)-len(sequence)],x])
 	sorted(out,key=len)[::-1]
 	return len(out),out
 
@@ -102,25 +102,28 @@ def main(n):
 		r = findMatch(file_arrayBC,snBC)
 		print "BC", r[0]
 		if r[0] == 1:
-			n = r[1][0] + n
+			z = '"' + r[1][0][1] + '"'
+			file_arrayBC.remove(z)
+			n = r[1][0][0] + n
 		snDE = find_first_v2("DE",n)	
 		r = findMatch(file_arrayDE,snDE)
 		print "DE", r[0]
 		if r[0] == 1:
-			a.append(r[1][0])
-			n = r[1][0] + n
-			
+			z = '"' + r[1][0][1] + '"'
+			file_arrayDE.remove(z)
+			n = r[1][0][0] + n
 		snEDA = find_first_v2("EDA",n)
 		r = findMatch(file_arrayEDA,snEDA)
 		print "EDA", r[0]
 		if r[0] == 1:
-			a.append(r[1][0])
-			n = r[1][0] + n
-			
+			z = '"' + r[1][0][1] + '"'		
+			file_arrayEDA.remove(z)
+			n = r[1][0][0] + n
 		snDFAD = find_first_v2("DFAD",n)	
 		r = findMatch(file_arrayDFAD,snDFAD)
 		print "DFAD", r[0]
 		if r[0] == 1:
-			a.append(r[1][0])
-			n = r[1][0] + n
+			z = '"' + r[1][0][1] + '"'		
+			file_arrayDFAD.remove(z)
+			n = r[1][0][0] + n
 main(n)
