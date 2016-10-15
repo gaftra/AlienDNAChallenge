@@ -1,36 +1,43 @@
 def find_initial(file_BC, file_DE, file_EDA, file_DFAD):
+
     bc_diff = ""
     for element in file_BC:
         element = element[1:-1]
         if element[-2:] != "BC":
             bc_diff = element
             break
+
     de_diff = ""
     for element in file_DE:
         element = element[1:-1]
         if element[-2:] != "DE":
             de_diff = element
             break
+
     eda_dif = ""
     for element in file_EDA:
         element = element[1:-1]
         if element[-3:] != "EDA":
             eda_dif = element
             break
+
     dfad_dif = ""
     for element in file_DFAD:
         element = element[1:-1]
         if element[-4:] != "DFAD":
             dfad_dif = element
             break
+
     ar = [bc_diff, de_diff, dfad_dif, eda_dif]
     longest = 0
     best_cut = ""
+
     for x in range(len(ar)):
         cur_x = ar[x]  # bc_diff
         if len(cur_x) > longest:
             longest = len(cur_x)
             best_cut = cur_x.partition("_")[0].upper()
+
     return (longest, best_cut)
 
 
@@ -54,27 +61,41 @@ def find_first_v2(cut,sequence):
 		return cut,None
 	return cut,sequence[:first]+cut
 	
-def findMatch(file_array,sequence):
+def findMatch(file_array,sequence):	
 	for x in file_array:
 		x = x[1:-1]
 		if (x[-(len(sequence)):] == sequence):
 			return x[:len(x)-len(sequence)]
-	
+
+def findMatches(file_array, sequence):
+	matches = []
+	for x in file_array:
+		x = x[1:-1]
+		if (x[-(len(sequence)):] == sequence):
+			matches.insert(0, x)
+	return matches
+		
 file_BC = open("genomePieces/10k_digest_BC", "r")
 file_DE = open("genomePieces/10k_digest_DE", "r")
 file_DFAD = open("genomePieces/10k_digest_DFAD", "r")
 file_EDA = open("genomePieces/10k_digest_EDA", "r")
+
 file_arrayBC = file_BC.readline()[1:-1].split(", ")
 file_arrayDE = file_DE.readline()[1:-1].split(", ")
 file_arrayDFAD = file_DFAD.readline()[1:-1].split(", ")
 file_arrayEDA = file_EDA.readline()[1:-1].split(", ")
+
 ar = ["DFAD","EDA","BC","DE"]
+
 # find initial unique ending/sequence and its length
 # best_cut ^; best_len - its len
 best_len, best_cut = find_initial(file_arrayBC, file_arrayDE, file_arrayEDA, file_arrayDFAD)
 global_sequence_length = best_len
 n = best_cut
 c = 0
+
+matches_stack = []
+
 while len(n) != 4363:
 	sn = find_first_v2(ar[c%4],n)
 	if sn[0] == "BC" and sn[1] != None:
