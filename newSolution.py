@@ -98,6 +98,21 @@ def main(n):
 		print "Length", len(n)
 		b = set(a)
 		print "List", len(a), "Set", len(b)
+	
+		snDFAD = find_first_v2("DFAD",n)	
+		r = findMatch(file_arrayDFAD,snDFAD)	
+		print "DFAD", r[0]
+		if r[0] == 1:
+			z = '"' + r[1][0][1] + '"'		
+			file_arrayDFAD.remove(z)
+			n = r[1][0][0] + n
+		snEDA = find_first_v2("EDA",n)
+		r = findMatch(file_arrayEDA,snEDA)
+		print "EDA", r[0]
+		if r[0] == 1:
+			z = '"' + r[1][0][1] + '"'		
+			file_arrayEDA.remove(z)
+			n = r[1][0][0] + n
 		snBC = find_first_v2("BC",n)
 		r = findMatch(file_arrayBC,snBC)
 		print "BC", r[0]
@@ -112,18 +127,7 @@ def main(n):
 			z = '"' + r[1][0][1] + '"'
 			file_arrayDE.remove(z)
 			n = r[1][0][0] + n
-		snEDA = find_first_v2("EDA",n)
-		r = findMatch(file_arrayEDA,snEDA)
-		print "EDA", r[0]
-		if r[0] == 1:
-			z = '"' + r[1][0][1] + '"'		
-			file_arrayEDA.remove(z)
-			n = r[1][0][0] + n
-		snDFAD = find_first_v2("DFAD",n)	
-		r = findMatch(file_arrayDFAD,snDFAD)
-		print "DFAD", r[0]
-		if r[0] == 1:
-			z = '"' + r[1][0][1] + '"'		
-			file_arrayDFAD.remove(z)
-			n = r[1][0][0] + n
+
+
+
 main(n)
