@@ -83,7 +83,7 @@ n = best_cut
 def main(n,BC,DE,DFAD,EDA,ABB):
 
 	#We loop the program 100 times, as it takes ~100 iterations to reach our stopping point.
-	for x in range(10000):
+	while len(n) < 10000000:
 	
 		#If the length of the genome exceeds the length limit, something has gone terribly wrong and we need to kill it to end its suffering.
 		if len(n) > 100000000:
@@ -142,6 +142,10 @@ def main(n,BC,DE,DFAD,EDA,ABB):
 			ABB.remove(delString)
 			n = matchOutput[1][0][0] + n
 			
+		
+		file = open('10mAnswer_2.txt','w')
+		file.write(n)
+		file.close
 	#After the 100 iterations, save the genome sequence to a file.
 	
 	file = open('10mAnswer.txt','w')
