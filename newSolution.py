@@ -1,5 +1,6 @@
-#Solves the 100k genome using a horrible method
+# Solves the 100k genome using a horrible method
 import time
+
 
 def find_initial(file_BC, file_DE, file_EDA, file_DFAD):
     bc_diff = ""
@@ -38,33 +39,36 @@ def find_initial(file_BC, file_DE, file_EDA, file_DFAD):
 
 
 def find_first_next_cut(sequence):
-    mini = ["",999999999999]
+    mini = ["", 999999999999]
     ar = ["BC", "DE", "DFAD", "EDA"]
     for x in range(4):
         try:
-           first = sequence.index(ar[x])
-           if first < mini[1]:
-               mini[1] = first
-               mini[0] = ar[x]
+            first = sequence.index(ar[x])
+            if first < mini[1]:
+                mini[1] = first
+                mini[0] = ar[x]
         except ValueError:
-           pass
-    return mini[0],sequence[:mini[1]]+mini[0]
+            pass
+    return mini[0], sequence[:mini[1]] + mini[0]
 
-def find_first_v2(cut,sequence):
-	try:
-		first = sequence.index(cut)
-	except ValueError:
-		return cut,None
-	return sequence[:first]+cut
 
-def findMatch(file_array,sequence):
-	out = []
-	for x in file_array:
-		x = x[1:-1]
-		if (x[-(len(sequence)):] == sequence):
-			out.append([x[:len(x)-len(sequence)],x])
-	sorted(out,key=len)[::-1]
-	return len(out),out
+def find_first_v2(cut, sequence):
+    try:
+        first = sequence.index(cut)
+    except ValueError:
+        return cut, None
+    return sequence[:first] + cut
+
+
+def findMatch(file_array, sequence):
+    out = []
+    for x in file_array:
+        x = x[1:-1]
+        if (x[-(len(sequence)):] == sequence):
+            out.append([x[:len(x) - len(sequence)], x])
+    out = sorted(out, key=len)[::-1]
+    return len(out), out
+
 
 file_BC = open("genomePieces/10m_digest_BC", "r")
 file_DE = open("genomePieces/10m_digest_DE", "r")
@@ -78,56 +82,57 @@ file_arrayEDA = file_EDA.readline()[1:-1].split(", ")
 # find initial unique ending/sequence and its length
 # best_cut ^; best_len - its 
 import sys
+
 best_len, best_cut = find_initial(file_arrayBC, file_arrayDE, file_arrayEDA, file_arrayDFAD)
 global_sequence_length = best_len
 n = best_cut
 
-def main(n):
-	a = []
-	for x in range(100):
-		if len(n) > 10000000:
-			print "Fail"
-			return
-		if len(n) == 10000000:
-			print "Huzzah",len(n)	
-			#file = open('large_answer.txt','a')
-			#file.write(n)
-			#file.close
-			return True
-		
-		print "Length", len(n)
-		b = set(a)
-		print "List", len(a), "Set", len(b)
-	
-		snDFAD = find_first_v2("DFAD",n)	
-		r = findMatch(file_arrayDFAD,snDFAD)	
-		print "DFAD", r[0]
-		if r[0] == 1:
-			z = '"' + r[1][0][1] + '"'		
-			file_arrayDFAD.remove(z)
-			n = r[1][0][0] + n
-		snEDA = find_first_v2("EDA",n)
-		r = findMatch(file_arrayEDA,snEDA)
-		print "EDA", r[0]
-		if r[0] == 1:
-			z = '"' + r[1][0][1] + '"'		
-			file_arrayEDA.remove(z)
-			n = r[1][0][0] + n
-		snBC = find_first_v2("BC",n)
-		r = findMatch(file_arrayBC,snBC)
-		print "BC", r[0]
-		if r[0] == 1:
-			z = '"' + r[1][0][1] + '"'
-			file_arrayBC.remove(z)
-			n = r[1][0][0] + n
-		snDE = find_first_v2("DE",n)	
-		r = findMatch(file_arrayDE,snDE)
-		print "DE", r[0]
-		if r[0] == 1:
-			z = '"' + r[1][0][1] + '"'
-			file_arrayDE.remove(z)
-			n = r[1][0][0] + n
 
+def main(n):
+    a = []
+    for x in range(100):
+        if len(n) > 10000000:
+            print "Fail"
+            return
+        if len(n) == 10000000:
+            print "Huzzah", len(n)
+            # file = open('large_answer.txt','a')
+            # file.write(n)
+            # file.close
+            return True
+
+        print "Length", len(n)
+        b = set(a)
+        print "List", len(a), "Set", len(b)
+
+        snDFAD = find_first_v2("DFAD", n)
+        r = findMatch(file_arrayDFAD, snDFAD)
+        print "DFAD", r[0]
+        if r[0] == 1:
+            z = '"' + r[1][0][1] + '"'
+            file_arrayDFAD.remove(z)
+            n = r[1][0][0] + n
+        snEDA = find_first_v2("EDA", n)
+        r = findMatch(file_arrayEDA, snEDA)
+        print "EDA", r[0]
+        if r[0] == 1:
+            z = '"' + r[1][0][1] + '"'
+            file_arrayEDA.remove(z)
+            n = r[1][0][0] + n
+        snBC = find_first_v2("BC", n)
+        r = findMatch(file_arrayBC, snBC)
+        print "BC", r[0]
+        if r[0] == 1:
+            z = '"' + r[1][0][1] + '"'
+            file_arrayBC.remove(z)
+            n = r[1][0][0] + n
+        snDE = find_first_v2("DE", n)
+        r = findMatch(file_arrayDE, snDE)
+        print "DE", r[0]
+        if r[0] == 1:
+            z = '"' + r[1][0][1] + '"'
+            file_arrayDE.remove(z)
+            n = r[1][0][0] + n
 
 
 main(n)
